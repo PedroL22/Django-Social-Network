@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from main import views
+from main.views import UserEditView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -27,5 +28,7 @@ urlpatterns = [
     path('login', views.login_user, name='login'),
     path('logout', views.logout_user, name='logout'),
     path('register', views.register_user, name='register'),
+    path('profile/<str:username>', views.profile, name='profile'),
+    path('edit_profile', UserEditView.as_view(), name='edit_profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
