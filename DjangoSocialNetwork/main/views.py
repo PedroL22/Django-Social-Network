@@ -10,6 +10,17 @@ from .decorators import *
 from django.utils.decorators import method_decorator
 
 # Create your views here.
+class RedirectToPreviousMixin:
+
+    default_redirect = '/'
+
+    def get(self, request, *args, **kwargs):
+        request.session[''] = request.META.get('HTTP_REFERER', self.default_redirect)
+        return super().get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return self.request.session['']
+
 @login_required
 def index(request):
     return render(request, 'index.html', {})
@@ -59,10 +70,11 @@ def profile(request, username=None):
     return render(request, 'profile.html')
 
 @method_decorator(login_required, name='dispatch')
-class UserEditView(generic.UpdateView):
+class UserEditView(RedirectToPreviousMixin, generic.UpdateView):
 	form_class = EditProfileForm
 	template_name = 'edit_profile.html'
-	success_url = reverse_lazy('profile')
 
 	def get_object(self):
 		return self.request.user
+
+	
