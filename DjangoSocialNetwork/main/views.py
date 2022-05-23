@@ -1,13 +1,11 @@
+from django.contrib import messages
+from django.views import generic
+from .decorators import *
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.forms import UserChangeForm
-from django.contrib import messages
-from django.views import generic
-from django.urls import reverse_lazy
-from .forms import RegisterUserForm, EditProfileForm
-from .decorators import *
 from django.utils.decorators import method_decorator
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 # Create your views here.
 class RedirectToPreviousMixin:
@@ -49,7 +47,7 @@ def logout_user(request):
 @user_passes_test(lambda user: not user.username, login_url='/', redirect_field_name=None)
 def register_user(request):
 	if request.method == 'POST':
-		form = RegisterUserForm(request.POST)
+		form = UserRegisterForm(request.POST)
 		if form.is_valid():
 			form.save()
 			username= form.cleaned_data['username']
@@ -59,22 +57,38 @@ def register_user(request):
 			messages.success(request, ("Account registered successfully."))
 			return redirect('/')
 	else:
-		form = RegisterUserForm()
+		form = UserRegisterForm()
 	return render(request, 'register.html', {
 		'form':form,
 	})
 
 # user
 @login_required
+def edit(request, username=None):
+	if request.method == 'POST':
+		u_form = UserUpdateForm(request.POST, instance=request.user)
+		p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+		if u_form.is_valid() and p_form.is_valid():
+			u_form.save()
+			p_form.save()
+			messages.success(request, f'Your account has been update.')
+			return redirect('/')
+	else:	
+		u_form = UserUpdateForm(instance=request.user)
+		p_form = ProfileUpdateForm(instance=request.user.profile)
+
+	context = {
+		'u_form': u_form,
+		'p_form': p_form
+	}
+
+	return render(request, 'edit_profile.html', context)
+
+@login_required
 def profile(request, username=None):
-    return render(request, 'profile.html')
+	
 
-@method_decorator(login_required, name='dispatch')
-class UserEditView(RedirectToPreviousMixin, generic.UpdateView):
-	form_class = EditProfileForm
-	template_name = 'edit_profile.html'
+	return render(request, 'profile.html')
 
-	def get_object(self):
-		return self.request.user
 
 	

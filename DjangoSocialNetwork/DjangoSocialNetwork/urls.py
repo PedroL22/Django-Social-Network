@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from main import views
-from main.views import UserEditView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('', views.index, name='index'),
     path('home', views.index, name='index'),
     path('index', views.index, name='index'),
@@ -29,6 +29,6 @@ urlpatterns = [
     path('logout', views.logout_user, name='logout'),
     path('register', views.register_user, name='register'),
     path('profile/<str:username>', views.profile, name='profile'),
-    path('edit_profile', UserEditView.as_view(), name='edit_profile'),
+    path('edit_profile', views.edit, name='edit_profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

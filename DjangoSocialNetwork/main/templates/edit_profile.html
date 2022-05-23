@@ -14,9 +14,10 @@
     <div class="shadow p-4 mb-5 bg-body rounded">
 	<h1>Edit profile</h1>
     <br/>
-        <form method=POST>
+        <form method=POST enctype="multipart/form-data">
 			{% csrf_token %}
-            {{ form.as_p }}
+            {{ u_form }}
+            {{ p_form }}
 
 		<form>
         <br/>
