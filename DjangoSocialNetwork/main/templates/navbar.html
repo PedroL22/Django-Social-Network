@@ -17,12 +17,15 @@
           <a class="nav-link" href="#">Pricing</a>
         </li>
       </ul>
-      <a href="{% url 'profile' username=request.user.username %}">
+      <a href="{% url 'profile' %}" style="width: 40px; height: 40px; position: relative; overflow: hidden; border-radius: 50%;">
+        <img src="{{ user.profile.image.url }}" style="display: inline; margin: 0 auto; height: 40px; width: auto;">
+      </a>
+      <a href="{% url 'profile' %}" style="margin-left: 15px; text-decoration: none;">
         <span class="navbar-text">
           {{ user.get_username }}
         </span>
       </a>
-      <a href="{% url 'logout' %}" style="margin-left: 15px;">
+      <a href="{% url 'logout' %}" style="margin-left: 15px; text-decoration: none;">
         <span class="navbar-text">
           Logout
         </span>
