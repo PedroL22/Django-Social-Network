@@ -33,7 +33,11 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     phone = forms.CharField(max_length=50, label = 'Phone', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Phone'}))
     address = forms.CharField(max_length=50, label = 'Address', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address'}))
-    
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        # there's a `fields` property now
+        self.fields['bio'].required = False
+
     class Meta:
         model = Profile
         fields = ['phone', 'address', 'bio', 'image']

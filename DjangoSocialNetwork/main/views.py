@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import Profile
 
 # Create your views here.
 class RedirectToPreviousMixin:
@@ -44,6 +45,7 @@ def logout_user(request):
 	messages.success(request, ("Logged out successfully."))
 	return redirect('/')
 
+
 @user_passes_test(lambda user: not user.username, login_url='/', redirect_field_name=None)
 def register_user(request):
 	if request.method == 'POST':
@@ -64,7 +66,8 @@ def register_user(request):
 
 # user
 @login_required
-def edit(request):
+def edit_profile(request):
+	Profile.objects.get_or_create(user=request.user)
 	if request.method == 'POST':
 		u_form = UserUpdateForm(request.POST, instance=request.user)
 		p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
@@ -86,8 +89,6 @@ def edit(request):
 
 @login_required
 def profile(request):
-	
-
 	return render(request, 'profile.html')
 
 
