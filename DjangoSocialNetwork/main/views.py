@@ -1,12 +1,13 @@
 from django.contrib import messages
-from django.views import generic
+from django.views.generic import ListView, DetailView
 from .decorators import *
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Profile
+from .models import Profile, Post
 
 # Create your views here.
 class RedirectToPreviousMixin:
@@ -20,9 +21,9 @@ class RedirectToPreviousMixin:
     def get_success_url(self):
         return self.request.session['']
 
-@login_required
-def index(request):
-    return render(request, 'index.html', {})
+class HomeView(LoginRequiredMixin ,ListView):
+	model = Post
+	template_name = 'index.html'
 
 # authentication
 @user_passes_test(lambda user: not user.username, login_url='/', redirect_field_name=None)
