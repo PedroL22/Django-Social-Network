@@ -94,7 +94,39 @@
                   </div>
                 </div>
               </div>
-        </div>
+              <div class="col-md-8">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        {% for x in posts %}
+                          <div class="card">
+                              <div class="card-body">
+                                  <div>
+                                      {% if x.author.profile.image %}
+                                      <a href="#" style="text-decoration: none; color: black;">
+                                          <img class='small-pic' src="{{ x.author.profile.image.url }}">
+                                      </a>
+                                      {% else %}
+                                      <a href="#" style="text-decoration: none; color: black;">
+                                          <img class='small-pic' src="{% static 'images/default-pic.png' %}">
+                                      </a>
+                                      {% endif %}
+                                      <a href="#" style="text-decoration: none; color: black;">
+                                          <span class="card-title" style="margin-left: 5px;">{{ x.author }}</span>
+                                      </a>
+                                  </div>
+                                  <p class="card-text"><small class="text-muted">{{ x.date }}</small></p>
+                                  {% if x.author == user %}
+                                      <div>
+                                          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-edit' x.id %}">Edit</a>
+                                          <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' x.id %}">Delete</a>
+                                      </div>
+                                  {% endif %}
+                                <p class="card-text">{{ x.body }}</p>
+                                {% endfor %}
+                   
+      </div>
     </div>
 
 <style type="text/css">

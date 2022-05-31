@@ -17,6 +17,7 @@
           <a class="nav-link" href="#"></a>
         </li>
       </ul>
+      <a class="nav-item nav-link" style="text-decoration: none; color: grey;" href="{% url 'post-create' %}">New Post</a>
       {% if user.profile.image %}
       <a href="{% url 'profile' %}" style="width: 40px; height: 40px; position: relative; overflow: hidden; border-radius: 50%;">
         <img src="{{ user.profile.image.url }}" style="display: inline; margin: 0 auto; height: 40px; width: auto;">

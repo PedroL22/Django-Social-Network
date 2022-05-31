@@ -18,14 +18,27 @@ from django.urls import path, include
 from main import views
 from django.conf import settings
 from django.conf.urls.static import static
-from main.views import HomeView
+from main.views import (
+    PostDetailView,
+    PostCreateView,
+    PostEditView,
+    PostDeleteView,
+    UserPostListView
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('admin', admin.site.urls),
-    path('', HomeView.as_view(), name='index'),
-    path('home', HomeView.as_view(), name='index'),
-    path('index', HomeView.as_view(), name='index'),
+    
+    path('', views.home, name='index'),
+    path('home', views.home, name='index'),
+    path('index', views.home, name='index'),
+    
+    path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/edit/', PostEditView.as_view(success_url="/"), name='post-edit'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    
     path('login', views.login_user, name='login'),
     path('logout', views.logout_user, name='logout'),
     path('register', views.register_user, name='register'),

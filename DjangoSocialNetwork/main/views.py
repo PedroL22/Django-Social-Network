@@ -1,29 +1,68 @@
 from django.contrib import messages
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView,  CreateView, UpdateView, DeleteView
 from .decorators import *
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile, Post
 
 # Create your views here.
-class RedirectToPreviousMixin:
+@login_required
+def home(request):
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(request, 'index.html', context)
 
-    default_redirect = '/'
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'body']
 
-    def get(self, request, *args, **kwargs):
-        request.session[''] = request.META.get('HTTP_REFERER', self.default_redirect)
-        return super().get(request, *args, **kwargs)
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
-    def get_success_url(self):
-        return self.request.session['']
+class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'body', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8']
 
-class HomeView(LoginRequiredMixin ,ListView):
-	model = Post
-	template_name = 'index.html'
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url = '/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+class PostDetailView(DetailView):
+    model = Post
+
+class UserPostListView(ListView):
+    model = Post
+    template_name = 'main/user_posts.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date')
+
 
 # authentication
 @user_passes_test(lambda user: not user.username, login_url='/', redirect_field_name=None)
@@ -45,7 +84,6 @@ def logout_user(request):
 	logout(request)
 	messages.success(request, ("Logged out successfully."))
 	return redirect('/')
-
 
 @user_passes_test(lambda user: not user.username, login_url='/', redirect_field_name=None)
 def register_user(request):
@@ -90,7 +128,10 @@ def edit_profile(request):
 
 @login_required
 def profile(request):
-	return render(request, 'profile.html')
+	context = {
+        'posts': Post.objects.filter(author=request.user)
+    }
+	return render(request, 'profile.html', context)
 
 
 	
