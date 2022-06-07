@@ -56,13 +56,25 @@ class PostDetailView(DetailView):
 
 class UserPostListView(ListView):
     model = Post
-    template_name = 'main/user_posts.html'
+    template_name = 'user/other_profiles.html'
     context_object_name = 'posts'
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date')
 
+def other_profile(request, id=None):
+	if id:
+		other_user = Profile.objects.get(user_id=id)
+		other_posts = Post.objects.filter(author_id=id)
+		post_list = []
+		for x in other_posts:
+			post_list.append(x)
+	context = {
+		'other_user': other_user,
+		'other_posts' : post_list
+		}
+	return render(request, 'users/other_profiles.html', context)
 
 # authentication
 @user_passes_test(lambda user: not user.username, login_url='/', redirect_field_name=None)
@@ -132,6 +144,4 @@ def profile(request):
         'posts': Post.objects.filter(author=request.user)
     }
 	return render(request, 'profile.html', context)
-
-
 	
