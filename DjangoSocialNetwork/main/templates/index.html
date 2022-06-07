@@ -5,8 +5,14 @@
     <title>Home | Social Network</title>
     <style>
         .carousel-item {
-            height: auto;
-            object-fit: cover;
+                height: 400px;
+                object-fit: cover;
+            }
+        @media only screen and (max-width: 600px) {
+            .carousel-item {
+                height: 175px;
+                object-fit: cover;
+            }
         }
         .card {
             max-width: 50rem;
@@ -28,11 +34,11 @@
         <div class="card-body">
             <div>
                 {% if x.author.profile.image %}
-                <a href="#" style="text-decoration: none; color: black;">
+                <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
                     <img class='small-pic' src="{{ x.author.profile.image.url }}">
                 </a>
                 {% else %}
-                <a href="#" style="text-decoration: none; color: black;">
+                <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
                     <img class='small-pic' src="{% static 'images/default-pic.png' %}">
                 </a>
                 {% endif %}

@@ -15,31 +15,33 @@ from .models import Profile, Post
 @login_required
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.all().order_by('-date')
     }
     return render(request, 'index.html', context)
 
 class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    fields = ['title', 'body']
+	model = Post
+	fields = ['body', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8']
+	success_url = '/'
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
 
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Post
-    fields = ['title', 'body', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8']
+	model = Post
+	fields = ['body', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8']
+	success_url = '/'
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
 
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.author:
-            return True
-        return False
+	def test_func(self):
+		post = self.get_object()
+		if self.request.user == post.author:
+			return True
+		return False
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
@@ -66,7 +68,7 @@ class UserPostListView(ListView):
 def other_profile(request, id=None):
 	if id:
 		other_user = Profile.objects.get(user_id=id)
-		other_posts = Post.objects.filter(author_id=id)
+		other_posts = Post.objects.filter(author_id=id).order_by('-date')
 		post_list = []
 		for x in other_posts:
 			post_list.append(x)
@@ -141,7 +143,7 @@ def edit_profile(request):
 @login_required
 def profile(request):
 	context = {
-        'posts': Post.objects.filter(author=request.user)
+        'posts': Post.objects.filter(author=request.user).order_by('-date')
     }
 	return render(request, 'profile.html', context)
 	
