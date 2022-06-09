@@ -18,13 +18,14 @@
 			{% csrf_token %}
             {{ u_form }}
             {{ p_form }}
-
 		<form>
-        <br/>
+            <br/>
  
-            <input type="submit" value="Update profile" class="btn btn-secondary">
+            <br/>
+            <input type="submit" value="Update profile" class="btn btn-primary">
+            <a href="password" class="btn btn-secondary">Change password</a>
         </form>
-    <br/>
+        <br/>
    
     </div>
 {% endblock %}

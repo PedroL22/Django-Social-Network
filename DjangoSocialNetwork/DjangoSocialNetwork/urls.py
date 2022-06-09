@@ -23,7 +23,8 @@ from main.views import (
     PostCreateView,
     PostEditView,
     PostDeleteView,
-    UserPostListView
+    UserPostListView,
+    PasswordsChangeView
 )
 
 urlpatterns = [
@@ -45,5 +46,6 @@ urlpatterns = [
     path('register', views.register_user, name='register'),
     path('profile', views.profile, name='profile'),
     path('edit_profile', views.edit_profile, name='edit_profile'),
+    path('password', PasswordsChangeView.as_view(), name='password')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

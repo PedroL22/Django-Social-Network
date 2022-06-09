@@ -1,14 +1,17 @@
 from django.contrib import messages
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView,  CreateView, UpdateView, DeleteView
 from .decorators import *
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.views import PasswordChangeView
 from django.utils.decorators import method_decorator
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, PasswordChangingForm
 from .models import Profile, Post
 
 # Create your views here.
@@ -139,6 +142,11 @@ def edit_profile(request):
 	}
 
 	return render(request, 'edit_profile.html', context)
+
+class PasswordsChangeView(PasswordChangeView, LoginRequiredMixin):
+	template_name = 'change-password.html'
+	form_class = PasswordChangingForm
+	success_url = 'profile'
 
 @login_required
 def profile(request):

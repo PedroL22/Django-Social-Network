@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import Profile
@@ -44,3 +44,12 @@ class ProfileUpdateForm(forms.ModelForm):
         widgets = {
             'bio': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Bio'}),
         }
+
+class PasswordChangingForm(PasswordChangeForm):
+    old_password = forms.CharField(max_length=50, label = 'Old password', required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
+    new_password1 = forms.CharField(max_length=50, label = 'New password', required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
+    new_password2 = forms.CharField(max_length=50, label = 'New password confirmation', required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}))
+    
+    class Meta:
+        model = User
+        fields = ('old_password', 'new_password1', 'new_password2')
