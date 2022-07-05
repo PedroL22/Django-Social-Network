@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView,  CreateView, UpdateView, DeleteView
 from .decorators import *
 from django.http import HttpResponse
