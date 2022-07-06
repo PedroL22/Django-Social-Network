@@ -142,7 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL='/login'
 LOGIN_REDIRECT_URL='/login'
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'hodpd2mtw',
