@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-STATICFILES_STORAGE = 'DjangoSocialNetwork.storage.whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 
 # Default primary key field type
