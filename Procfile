@@ -1,1 +1,1 @@
-web: gunicorn djangosocialnetwork.wsgi
+web: gunicorn DjangoSocialNetwork.wsgi
