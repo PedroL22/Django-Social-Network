@@ -39,7 +39,7 @@
                 </a>
                 {% else %}
                 <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
-                    <img class='small-pic' src="{% static 'public/images/default-pic.png' %}">
+                    <img class='small-pic' src="{% static 'images/default-pic.png' %}">
                 </a>
                 {% endif %}
                 <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
