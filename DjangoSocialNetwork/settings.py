@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'django_cleanup.apps.CleanupConfig',
+    'cloudinary_storage',
+    'cloudinary',
     'main',
 ]
 
@@ -141,3 +143,10 @@ LOGIN_URL='/login'
 LOGIN_REDIRECT_URL='/login'
 
 django_heroku.settings(locals())
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hodpd2mtw',
+    'API_KEY': '148834561614955',
+    'API_SECRET': 'eVdaYIwgdOOCZuKAgQe_9l4DVG8',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
