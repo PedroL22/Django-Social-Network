@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-32%1_eh!*_!bka1-vvf@orldca9^d4c=5bn2qge4)n-eoup=&n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['www.djangosocial-network.herokuapp.com']
+ALLOWED_HOSTS = ['www.djangosocial-network.herokuapp.com', '127.0.0.1:8000']
 
 
 # Application definition
@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
