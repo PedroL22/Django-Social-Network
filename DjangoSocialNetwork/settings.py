@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-32%1_eh!*_!bka1-vvf@orldca9^d4c=5bn2qge4)n-eoup=&n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['djangosocial-network.herokuapp.com']
+ALLOWED_HOSTS = ['www.djangosocial-network.herokuapp.com']
 
 
 # Application definition
@@ -150,21 +150,3 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'eVdaYIwgdOOCZuKAgQe_9l4DVG8',
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-import logging
-import os
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },
-    },
-}
