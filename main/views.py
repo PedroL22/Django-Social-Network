@@ -23,7 +23,7 @@ def home(request):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
-	fields = ['body', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8']
+	fields = ['body', 'img']
 	success_url = '/'
 
 	def form_valid(self, form):
@@ -32,7 +32,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Post
-	fields = ['body', 'img1', 'img2', 'img3', 'img4', 'img5', 'img6', 'img7', 'img8']
+	fields = ['body', 'img']
 	success_url = '/'
 
 	def form_valid(self, form):

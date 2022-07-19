@@ -26,14 +26,7 @@ class Profile(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
-    img1 = models.ImageField(upload_to='posts', blank=True, null=True)
-    img2 = models.ImageField(upload_to='posts', blank=True, null=True)
-    img3 = models.ImageField(upload_to='posts', blank=True, null=True)
-    img4 = models.ImageField(upload_to='posts', blank=True, null=True)
-    img5 = models.ImageField(upload_to='posts', blank=True, null=True)
-    img6 = models.ImageField(upload_to='posts', blank=True, null=True)
-    img7 = models.ImageField(upload_to='posts', blank=True, null=True)
-    img8 = models.ImageField(upload_to='posts', blank=True, null=True)
+    img = models.ImageField(upload_to='posts', blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
