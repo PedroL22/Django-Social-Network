@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'cloudinary_storage',
     'cloudinary',
+    'bootstrapform',
     'main',
 ]
 
@@ -138,7 +139,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 LOGIN_URL='/login'
 LOGIN_REDIRECT_URL='/login'
 
@@ -148,7 +148,6 @@ CLOUDINARY_STORAGE = {
     'API_KEY': '148834561614955',
     'API_SECRET': 'eVdaYIwgdOOCZuKAgQe_9l4DVG8',
 }
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
  # Debugging in heroku live
 LOGGING = {
@@ -187,4 +186,5 @@ LOGGING = {
 DEBUG_PROPAGATE_EXCEPTIONS = True
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 django_heroku.settings(locals())
