@@ -1,19 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-    <head>
-        <title>Delete Comment | Social Network</title>
-    </head>
-    <div class="content-section">
+<title>Delete Comment | Social Network</title>
+<style>
+  .card {
+      max-width: 50rem;
+      margin: 0 auto;
+  }
+</style>
+
+<div class="card">
+    <div class="card-body">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Delete Comment</legend>
-                <h2>Are you sure you want to delete the comnent?</h2>
+                <h2>Delete Comment</h2>
+                <legend>Are you sure you want to delete the comment?</legend>
             </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
-                <a class="btn btn-outline-secondary" href="{% url 'index' %}">Cancel</a>
-            </div>
         </form>
+    <div class="form-group">
+        <button class="btn btn-danger" type="submit">Yes, Delete</button>
+        <a class="btn btn-secondary" href="{% url 'index' %}">Cancel</a>
     </div>
+</div>
+
 {% endblock content %}
