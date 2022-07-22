@@ -75,7 +75,7 @@
         {% if comments %}
         <div class="card-footer">{{ x.comments.all }}</div>
         {% else %}
-        <div class="card-footer">No comments yet. <a href="#">Add one</a></div>
+        <div class="card-footer">No comments yet. <a href="{% url 'post-comment' x.id %}">Add one</a></div>
         {% endif %}
     </div>  
 </br>
