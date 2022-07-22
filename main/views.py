@@ -11,13 +11,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.utils.decorators import method_decorator
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, PasswordChangingForm
-from .models import Profile, Post
+from .models import Profile, Post, Comment
 
 # Create your views here.
 @login_required
 def home(request):
     context = {
-        'posts': Post.objects.all().order_by('-date')
+        'posts': Post.objects.all().order_by('-date'),
+        'comments': Comment.objects.all().order_by('-date')
     }
     return render(request, 'index.html', context)
 
@@ -56,16 +57,12 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 class PostDetailView(DetailView):
-    model = Post
+	model = Post
 
-class UserPostListView(ListView):
-    model = Post
-    template_name = 'user/other_profiles.html'
-    context_object_name = 'posts'
-
-    def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Post.objects.filter(author=user).order_by('-date')
+	def get_context_data(self, **kwargs):
+		context = super(PostDetailView, self).get_context_data(**kwargs)
+		context['comments'] = Comment.objects.filter(post=self.object)
+		return context
 
 def other_profile(request, id=None):
 	if id:

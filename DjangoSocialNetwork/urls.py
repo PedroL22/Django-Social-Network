@@ -23,7 +23,6 @@ from main.views import (
     PostCreateView,
     PostEditView,
     PostDeleteView,
-    UserPostListView,
     PasswordsChangeView
 )
 
@@ -34,7 +33,6 @@ urlpatterns = [
     path('home', views.home, name='index'),
     path('index', views.home, name='index'),
     
-    path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/edit/', PostEditView.as_view(success_url="/"), name='post-edit'),

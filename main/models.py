@@ -30,4 +30,15 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.date) + ' | ' + str(self.author)
+        return str(self.author) + ' | ' + str(self.body)
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    text = models.TextField()
+    img = models.ImageField(upload_to='posts', blank=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.author) + ' | ' + str(self.text)

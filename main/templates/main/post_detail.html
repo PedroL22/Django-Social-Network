@@ -1,19 +1,83 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-  <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
-    <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
-        <small class="text-muted">{{ object.date }}</small>
-        {% if object.author == user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-edit' object.id %}">Edit</a>
-            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
-          </div>
-        {% endif %}
+<title>{{ object.body }} | Social Network</title>
+<style>
+  .carousel-item {
+          height: 400px;
+          object-fit: cover;
+      }
+  @media only screen and (max-width: 600px) {
+      .carousel-item {
+          height: 175px;
+          object-fit: cover;
+      }
+  }
+  .card, #button {
+      max-width: 50rem;
+      margin: 0 auto;
+  }
+  .small-pic {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 50%;
+  }
+</style>
+
+<div class="card">
+  <div class="card-body">
+      <div>
+          {% if object.author.profile.image %}
+          <a href="{% url 'user-profile' object.author.id %}" style="text-decoration: none; color: black;">
+              <img class='small-pic' src="{{ object.author.profile.image.url }}">
+          </a>
+          {% else %}
+          <a href="{% url 'user-profile' object.author.id %}" style="text-decoration: none; color: black;">
+              <img class='small-pic' src="{% static 'images/default-pic.png' %}">
+          </a>
+          {% endif %}
+          <a href="{% url 'user-profile' object.author.id %}" style="text-decoration: none; color: black;">
+              <span class="card-title" style="margin-left: 5px;">{{ object.author }}</span>
+          </a>
       </div>
-      <p class="article-content">{{ object.body }}</p>
-    </div>
-  </article>
+      <p class="card-text"><small class="text-muted">{{ object.date }}</small></p>
+      {% if object.author == user %}
+          <div>
+              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-edit' object.id %}">Edit</a>
+              <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+          </div>
+      {% endif %}
+      <a><p class="card-text">{{ object.body }}</p></a>
+  </div>
+  <div class="carousel">
+      <div class="carousel-inner">
+          {% if object.img %}
+          <div class="carousel-item active">
+              <img src="{{ object.img.url }}" class="d-block w-100" alt="Slide 1">
+          </div>
+          {% endif %}
+      </div>
+  </div>
+  {% if not comments.all %}
+    <div class="card-footer">No comments yet. <a href="#">Add one</a></div>
+  {% else %}
+    {% for y in comments.all %}
+      <div class="card-footer">
+        {% if y %}
+        {{ y.author }}
+        {{ y.text }}
+        </br>
+        <a href="">Add comment.</a>
+      </div>
+    {% endfor %}
+  {% endif  %}
+  </div>
+  </br>
+  <div id="button" class="card-text">
+    <a class="btn btn-primary" href="{% url 'index' %}">Back</a>
+  </div>
+</div>
+
 {% endblock content %}
