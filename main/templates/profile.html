@@ -104,7 +104,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info" href="{% url 'edit_profile' %}">Edit</a>
+                      <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit</a>
                     </div>
                   </div>
                 </div>
@@ -114,20 +114,20 @@
                   <div class="card-body" >
                     <div class="row" >
                       <div class="col-sm-3" style="width: 100%;">
-                        <div class="card" >
-                          <div class="card-body">
                             {% for x in posts %}
-                            <div>
+                            <div class="card">
+                              <div class="card-body">
+                                  <div>
                                       {% if x.author.profile.image %}
-                                      <a style="text-decoration: none; color: black;">
+                                      <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
                                           <img class='small-pic' src="{{ x.author.profile.image.url }}">
                                       </a>
                                       {% else %}
-                                      <a style="text-decoration: none; color: black;">
+                                      <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
                                           <img class='small-pic' src="{% static 'images/default-pic.png' %}">
                                       </a>
                                       {% endif %}
-                                      <a style="text-decoration: none; color: black;">
+                                      <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
                                           <span class="card-title" style="margin-left: 5px;">{{ x.author }}</span>
                                       </a>
                                   </div>
@@ -138,23 +138,29 @@
                                           <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' x.id %}">Delete</a>
                                       </div>
                                   {% endif %}
-                                  <div class="carousel">
-                                    <div class="carousel-inner">
-                                        {% if x.img %}
-                                        <div class="carousel-item active">
-                                            <img src="{{ x.img.url }}" class="d-block w-100" alt="Slide 1">
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
+                                <a href="{% url 'post-detail' x.id %}" style="text-decoration: none;
+                                color: black;"><p class="card-text">{{ x.body }}</p></a>
+                              </div>
+                              <div class="carousel">
+                                  <div class="carousel-inner">
+                                      {% if x.img %}
+                                      <div class="carousel-item active">
+                                          <a href="{% url 'post-detail' x.id %}"><img src="{{ x.img.url }}" class="d-block w-100" alt="Slide 1"></a>
+                                      </div>
+                                      {% endif %}
+                                  </div>
+                              </div>
+                              {% if comments %}
+                              <div class="card-footer">{{ x.comments.all }}</div>
+                              {% else %}
+                              <div class="card-footer">No comments yet. <a href="{% url 'post-comment' x.id %}">Add one</a></div>
+                              {% endif %}
+                              </div>
                               </br>
-                                  <p class="card-text" style="max-width: fit-content;">{{ x.body }}</p>
                               </br>
-                              </br>
-                                {% endfor %}
+                              {% endfor %}
                    
-      </div>
-    </div>
+    
 
 <style type="text/css">
 body{
