@@ -72,11 +72,9 @@
                 {% endif %}
             </div>
         </div>
-        {% if comments %}
-        <div class="card-footer">{{ x.comments.all }}</div>
-        {% else %}
-        <div class="card-footer">No comments yet. <a href="{% url 'post-comment' x.id %}">Add one</a></div>
-        {% endif %}
+        <div class="card-footer"><a href="{% url 'post-detail' x.id %}" style="text-decoration: none; color: black;">{{ x.comments.count }} comments.</a>
+            <a href="{% url 'post-comment' x.id %}" style="color: blue; text-decoration: underline;">Add one</a>
+        </div>
     </div>
 </br>
 </br>
