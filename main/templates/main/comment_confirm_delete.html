@@ -17,10 +17,11 @@
                 <h2>Delete Comment</h2>
                 <legend>Are you sure you want to delete the comment?</legend>
             </fieldset>
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">Yes, Delete</button>
+            <a class="btn btn-secondary" href="{% url 'index' %}">Cancel</a>
+            </div>
         </form>
-    <div class="form-group">
-        <button class="btn btn-danger" type="submit">Yes, Delete</button>
-        <a class="btn btn-secondary" href="{% url 'index' %}">Cancel</a>
     </div>
 </div>
 

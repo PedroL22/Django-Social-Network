@@ -57,7 +57,7 @@ class PasswordChangingForm(PasswordChangeForm):
 class AddCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('text',)
+        fields = ('text','img')
 
         widgets = {
             'text': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Comment'}),
