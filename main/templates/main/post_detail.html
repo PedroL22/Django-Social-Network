@@ -73,10 +73,12 @@
         <a href="#" class="author">{{ y.author }}:</a>
         {{ y.text }}
         <small class="text-muted">{{ y.date }}</small>
-        </br>
-        <a href="{% url 'post-comment' post.pk %}">Add comment</a>
+        {% if y.author == user %}
+        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' y.id %}">Delete</a>
+        {% endif %}
       </div>
-    {% endfor %}
+      {% endfor %}
+      <a class="card-body" href="{% url 'post-comment' post.pk %}">Add comment</a>
   {% endif  %}
   </div>
   </br>

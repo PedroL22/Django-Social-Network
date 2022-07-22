@@ -33,6 +33,16 @@ class AddCommentView(LoginRequiredMixin, CreateView):
 		form.instance.post_id = self.kwargs['pk']
 		return super().form_valid(form)
 
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    success_url = '/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
 	fields = ['body', 'img']
