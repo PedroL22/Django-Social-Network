@@ -19,11 +19,12 @@ from main import views
 from django.conf import settings
 from django.conf.urls.static import static
 from main.views import (
-    PostDetailView,
+    AddCommentView,
+    PasswordsChangeView,
     PostCreateView,
-    PostEditView,
     PostDeleteView,
-    PasswordsChangeView
+    PostDetailView,
+    PostEditView,
 )
 
 urlpatterns = [
@@ -35,6 +36,7 @@ urlpatterns = [
     
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/comment/', AddCommentView.as_view(), name='post-comment'),
     path('post/<int:pk>/edit/', PostEditView.as_view(success_url="/"), name='post-edit'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 

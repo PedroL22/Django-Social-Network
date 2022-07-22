@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Profile
+from .models import Profile, Comment
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(max_length=50, widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder':'Email'}))
@@ -54,3 +54,11 @@ class PasswordChangingForm(PasswordChangeForm):
         model = User
         fields = ('old_password', 'new_password1', 'new_password2')
         
+class AddCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+
+        widgets = {
+            'text': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Comment'}),
+        }

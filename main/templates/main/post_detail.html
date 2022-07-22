@@ -24,6 +24,11 @@
       overflow: hidden;
       border-radius: 50%;
   }
+  .author, .author:hover {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+  }
 </style>
 
 <div class="card">
@@ -61,15 +66,15 @@
       </div>
   </div>
   {% if not comments.all %}
-    <div class="card-footer">No comments yet. <a href="#">Add one</a></div>
+    <div class="card-footer">No comments yet. <a href="{% url 'post-comment' post.pk %}">Add one</a></div>
   {% else %}
     {% for y in comments.all %}
       <div class="card-footer">
-        
-        {{ y.author }}
+        <a href="#" class="author">{{ y.author }}:</a>
         {{ y.text }}
+        <small class="text-muted">{{ y.date }}</small>
         </br>
-        <a href="">Add comment.</a>
+        <a href="{% url 'post-comment' post.pk %}">Add comment</a>
       </div>
     {% endfor %}
   {% endif  %}

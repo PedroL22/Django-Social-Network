@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<title>
+    Add comment | Social Network
+</title>
+
+<style>
+    .content-section {
+            max-width: 50rem;
+            margin: 0 auto;
+        }
+</style>
+
+<div class="content-section">
+    <div class="shadow p-4 mb-5 bg-body rounded">
+        <form form enctype='multipart/form-data' action="" method=POST>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary">Add comment</button>
+            <a class="btn btn-secondary" href="{% url 'index' %}">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

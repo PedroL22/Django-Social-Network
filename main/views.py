@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.utils.decorators import method_decorator
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, PasswordChangingForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, PasswordChangingForm, AddCommentForm
 from .models import Profile, Post, Comment
 
 # Create your views here.
@@ -21,6 +21,17 @@ def home(request):
         'comments': Comment.objects.all().order_by('-date')
     }
     return render(request, 'index.html', context)
+
+class AddCommentView(LoginRequiredMixin, CreateView):
+	model = Comment
+	form_class = AddCommentForm
+	template_name = 'main/add_comment.html'
+	success_url = '/'
+
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		form.instance.post_id = self.kwargs['pk']
+		return super().form_valid(form)
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
