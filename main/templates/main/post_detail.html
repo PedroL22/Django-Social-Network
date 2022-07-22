@@ -70,7 +70,7 @@
   {% else %}
     {% for y in comments.all %}
       <div class="card-footer">
-        <a href="#" class="author">{{ y.author }}:</a>
+        <a href="{% url 'user-profile' y.author.id %}" class="author">{{ y.author }}:</a>
         {{ y.text }}
         <small class="text-muted">{{ y.date }}</small>
         <img src="{{ y.img.url }}">
