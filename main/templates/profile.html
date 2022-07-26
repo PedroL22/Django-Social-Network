@@ -116,60 +116,61 @@
                     <div class="row" >
                       <div class="col-sm-3" style="width: 100%;">
                             {% for x in posts %}
-                            <div class="card">
-                              <div class="card-body">
-                                  <div>
+                              <div class="card">
+                                <div class="card-body">
+                                    <div>
                                       {% if x.author.profile.image %}
-                                      <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
-                                          <img class='small-pic' src="{{ x.author.profile.image.url }}">
-                                      </a>
+                                        <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
+                                            <img class='small-pic' src="{{ x.author.profile.image.url }}">
+                                        </a>
                                       {% else %}
-                                      <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
-                                          <img class='small-pic' src="{% static 'images/default-pic.png' %}">
-                                      </a>
+                                        <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
+                                            <img class='small-pic' src="{% static 'images/default-pic.png' %}">
+                                        </a>
                                       {% endif %}
-                                      <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
-                                          <span class="card-title" style="margin-left: 5px;">{{ x.author }}</span>
-                                      </a>
-                                  </div>
-                                  <p class="card-text"><small class="text-muted">{{ x.date }}</small></p>
-                                  {% if x.author == user %}
-                                      <div>
-                                          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-edit' x.id %}">Edit</a>
-                                          <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' x.id %}">Delete</a>
-                                      </div>
-                                  {% endif %}
-                                <a href="{% url 'post-detail' x.id %}" style="text-decoration: none;
-                                color: black;"><p class="card-text">{{ x.body }}</p></a>
+                                        <a href="{% url 'user-profile' x.author.id %}" style="text-decoration: none; color: black;">
+                                            <span class="card-title" style="margin-left: 5px;">{{ x.author }}</span>
+                                        </a>
+                                    </div>
+                                    <p class="card-text"><small class="text-muted">{{ x.date }}</small></p>
+                                    {% if x.author == user %}
+                                        <div>
+                                            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-edit' x.id %}">Edit</a>
+                                            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' x.id %}">Delete</a>
+                                        </div>
+                                    {% endif %}
+                                    <a href="{% url 'post-detail' x.id %}" style="text-decoration: none;
+                                    color: black;"><p class="card-text">{{ x.body }}</p></a>
+                                </div>
+                                <div class="carousel">
+                                    <div class="carousel-inner">
+                                        {% if x.img %}
+                                        <div class="carousel-item active">
+                                            <a href="{% url 'post-detail' x.id %}"><img src="{{ x.img.url }}" class="d-block w-100" alt="Slide 1"></a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding-bottom: 0px; overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
+                                  <ul style="padding: 0px;">
+                                      <a class="text-muted" href="{% url 'post-detail' x.id %}" style="text-decoration: none; color: black;">{{ x.likes.count }} likes</a>
+                                  </ul>
+                                  <ul>
+                                      <a class="text-muted" href="{% url 'post-detail' x.id %}" style="text-decoration: none; color: black;">{{ x.comments.count }} comments</a>
+                                  </ul>
+                                </div>
+                                <div class="card-footer" style="overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
+                                    <ul style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px; margin: 0px;">
+                                        <a href="{% url 'post-detail' x.id %}" class="btn btn-primary">Like</a>
+                                    </ul>
+                                    <ul style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px; margin: 0px;">
+                                        <a href="{% url 'post-comment' x.id %}" class="btn btn-primary">Comment</a>
+                                    </ul>
+                                </div>
                               </div>
-                              <div class="carousel">
-                                  <div class="carousel-inner">
-                                      {% if x.img %}
-                                      <div class="carousel-item active">
-                                          <a href="{% url 'post-detail' x.id %}"><img src="{{ x.img.url }}" class="d-block w-100" alt="Slide 1"></a>
-                                      </div>
-                                      {% endif %}
-                                  </div>
-                              </div>
-                              <div class="card-body" style="padding-bottom: 0px; overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
-                                <ul style="padding: 0px;">
-                                    <a class="text-muted" href="{% url 'post-detail' x.id %}" style="text-decoration: none; color: black;">{{ x.likes.count }} likes</a>
-                                </ul>
-                                <ul>
-                                    <a class="text-muted" href="{% url 'post-detail' x.id %}" style="text-decoration: none; color: black;">{{ x.comments.count }} comments</a>
-                                </ul>
-                            </div>
-                            <div class="card-footer" style="overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
-                                <ul style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px; margin: 0px;">
-                                    <a href="{% url 'post-detail' x.id %}" class="btn btn-primary">Like</a>
-                                </ul>
-                                <ul style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px; margin: 0px;">
-                                    <a href="{% url 'post-comment' x.id %}" class="btn btn-primary">Comment</a>
-                                </ul>
-                            </div>
                               </br>
                               </br>
-                              {% endfor %}
+                            {% endfor %}
                    
     
 
