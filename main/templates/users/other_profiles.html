@@ -147,15 +147,25 @@
                                       {% endif %}
                                   </div>
                               </div>
-                              {% if comments %}
-                              <div class="card-footer">{{ x.comments.all }}</div>
-                              {% else %}
-                              <div class="card-footer">No comments yet. <a href="{% url 'post-comment' x.id %}">Add one</a></div>
-                              {% endif %}
-                              </div>
-                              </br>
-                              </br>
-                              {% endfor %}
+                              <div class="card-body" style="padding-bottom: 0px; overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
+                                <ul style="padding: 0px;">
+                                    <a class="text-muted" href="{% url 'post-detail' x.id %}" style="text-decoration: none; color: black;">{{ x.likes.count }} likes</a>
+                                </ul>
+                                <ul>
+                                    <a class="text-muted" href="{% url 'post-detail' x.id %}" style="text-decoration: none; color: black;">{{ x.comments.count }} comments</a>
+                                </ul>
+                            </div>
+                            <div class="card-footer" style="overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
+                                <ul style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px; margin: 0px;">
+                                    <a href="{% url 'post-detail' x.id %}" class="btn btn-primary">Like</a>
+                                </ul>
+                                <ul style="padding-left: 0px; padding-top: 5px; padding-bottom: 5px; margin: 0px;">
+                                    <a href="{% url 'post-comment' x.id %}" class="btn btn-primary">Comment</a>
+                                </ul>
+                            </div>
+                          </br>
+                          </br>
+                            {% endfor %}
 <style type="text/css">
 body{
 
