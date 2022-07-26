@@ -4,25 +4,20 @@
 <title>{{ object.body }} | Social Network</title>
 <style>
   .carousel-item {
-          height: 400px;
-          object-fit: cover;
+    height: fit-content;
+    object-fit: cover;
+    max-height: 2000px;
       }
-  @media only screen and (max-width: 600px) {
-      .carousel-item {
-          height: 175px;
-          object-fit: cover;
-      }
-  }
   .card, #button {
-      max-width: 50rem;
-      margin: 0 auto;
+    max-width: 50rem;
+    margin: 0 auto;
   }
   .small-pic {
-      width: 40px;
-      height: 40px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
   }
   .author, .author:hover {
     text-decoration: none;
@@ -65,8 +60,24 @@
           {% endif %}
       </div>
   </div>
+  <div class="card-body" style="padding-bottom: 0px; overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
+    <ul style="padding: 0px;">{{ total_likes }} likes</ul>
+    <ul style="padding: 0px;">{{ comments.count }} comments</ul>
+  </div>
+  <div class="card-body" style="padding-top: 0px; overflow: hidden; display:flex; display: -webkit-flex; justify-content:space-between;">
+    <form action="{% url 'post-like' post.pk %}" method="POST">
+      {% csrf_token %}
+
+      {% if liked %}
+        <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger">Unlike</button>
+      {% else %}
+        <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">Like</button>
+      {% endif %}
+    </form>
+    <a class="btn btn-primary" href="{% url 'post-comment' post.pk %}">Comment</a>
+  </div>
   {% if not comments.all %}
-    <div class="card-footer">No comments yet. <a href="{% url 'post-comment' post.pk %}">Add one</a></div>
+    <div class="card-footer">No comments yet.</div>
   {% else %}
     {% for y in comments.all %}
       <div class="card-footer">
@@ -78,12 +89,12 @@
         {% endif %}
       </div>
       {% endfor %}
-      <a class="card-body" href="{% url 'post-comment' post.pk %}">Add comment</a>
+      
   {% endif  %}
   </div>
   </br>
   <div id="button" class="card-text">
-    <a class="btn btn-primary" href="{% url 'index' %}">Back</a>
+    <a class="btn btn-secondary" href="{% url 'index' %}">Back</a>
   </div>
 </div>
 

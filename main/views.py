@@ -1,7 +1,8 @@
+from multiprocessing import context
 from django.contrib import messages
 from django.views.generic import ListView, DetailView,  CreateView, UpdateView, DeleteView
 from .decorators import *
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -10,17 +11,18 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.utils.decorators import method_decorator
+from django.urls import reverse
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, PasswordChangingForm, AddCommentForm
 from .models import Profile, Post, Comment
 
 # Create your views here.
 @login_required
 def home(request):
-    context = {
+	context = {
         'posts': Post.objects.all().order_by('-date'),
-        'comments': Comment.objects.all().order_by('-date')
+        'comments': Comment.objects.all().order_by('-date'),
     }
-    return render(request, 'index.html', context)
+	return render(request, 'index.html', context)
 
 class AddCommentView(LoginRequiredMixin, CreateView):
 	model = Comment
@@ -82,7 +84,16 @@ class PostDetailView(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(PostDetailView, self).get_context_data(**kwargs)
+		stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+		total_likes = stuff.total_likes()
+
+		liked = False
+		if stuff.likes.filter(id=self.request.user.id).exists():
+			liked = True
+		
 		context['comments'] = Comment.objects.filter(post=self.object)
+		context['total_likes'] = total_likes
+		context['liked'] = liked
 		return context
 
 def other_profile(request, id=None):
@@ -97,6 +108,19 @@ def other_profile(request, id=None):
 		'other_posts' : post_list
 		}
 	return render(request, 'users/other_profiles.html', context)
+
+def LikeView(request, pk):
+	liked = False
+	post = get_object_or_404(Post, id=request.POST.get('post_id'))
+	
+	if post.likes.filter(id=request.user.id).exists():
+		post.likes.remove(request.user)
+		liked = False
+	else:
+		post.likes.add(request.user)
+		liked = True
+	
+	return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
 # authentication
 @user_passes_test(lambda user: not user.username, login_url='/', redirect_field_name=None)

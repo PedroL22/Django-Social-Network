@@ -26,6 +26,7 @@ from main.views import (
     PostDetailView,
     PostEditView,
     CommentDeleteView,
+    LikeView,
 )
 
 urlpatterns = [
@@ -41,6 +42,7 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
     path('post/<int:pk>/edit/', PostEditView.as_view(success_url="/"), name='post-edit'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    path('post/<int:pk>/like/', LikeView, name='post-like'),
 
     path('user/<int:id>/', views.other_profile, name='user-profile'),
     path('login', views.login_user, name='login'),

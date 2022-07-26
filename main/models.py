@@ -28,6 +28,10 @@ class Post(models.Model):
     body = models.TextField()
     img = models.ImageField(upload_to='posts', blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='likes')
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return str(self.author) + ' | ' + str(self.body)
