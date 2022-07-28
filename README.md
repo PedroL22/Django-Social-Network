@@ -6,5 +6,7 @@ MAIN FEATURES <br />
 -Profile customization with: first name, last name, username, email, phone, address, bio, and profile picture <br />
 -Posts system with text description and images upload <br />
 -Comments system for each post <br />
+-Admin dashboard <br />
+-Responsive design <br />
 
 https://djangosocial-network.herokuapp.com/
