@@ -5,34 +5,37 @@
 <title>Edit profile | Social Network</title>
 
 <style>
-    html {
+    .all {
       max-width: 64rem;
       margin: 0 auto;
     }
 </style>
 
-{% if form.errors %}
+
+<div class="all">
+    {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             An error occurred with the form.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-{% endif %}
+    {% endif %}
 
-    <div class="shadow p-4 mb-5 bg-body rounded">
-	<h1>Edit profile</h1>
-    <br/>
-        <form method=POST enctype="multipart/form-data">
-			{% csrf_token %}
-            {{ u_form }}
-            {{ p_form }}
-		<form>
+        <div class="shadow p-4 mb-5 bg-body rounded">
+            <h1>Edit profile</h1>
             <br/>
- 
+            <form method=POST enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ u_form }}
+                {{ p_form }}
+            <form>
+                <br/>
+    
+                <br/>
+                <input type="submit" value="Update profile" class="btn btn-primary">
+                <a href="password" class="btn btn-secondary">Change password</a>
+            </form>
             <br/>
-            <input type="submit" value="Update profile" class="btn btn-primary">
-            <a href="password" class="btn btn-secondary">Change password</a>
-        </form>
-        <br/>
-   
-    </div>
+    
+        </div>
+</div>
 {% endblock %}
